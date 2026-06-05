@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { useSwipeable } from "react-swipeable";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { CuppaGuide } from "@/components/profile/CuppaGuide";
 
@@ -31,26 +32,14 @@ const PROFILES = [
 export default function BrowsePage() {
   const [index, setIndex] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
-  const touchStartX = useRef<number | null>(null);
   const profile = PROFILES[index];
 
-  function handleTouchStart(e: React.TouchEvent) {
-    touchStartX.current = e.touches[0].clientX;
-  }
-
-  function handleTouchEnd(e: React.TouchEvent) {
-    if (touchStartX.current === null) return;
-    const delta = touchStartX.current - e.changedTouches[0].clientX;
-    if (Math.abs(delta) < 50) return; // ignore small movements
-    if (delta > 0) {
-      // swiped left → next
-      setIndex((i) => Math.min(PROFILES.length - 1, i + 1));
-    } else {
-      // swiped right → previous
-      setIndex((i) => Math.max(0, i - 1));
-    }
-    touchStartX.current = null;
-  }
+  const swipeHandlers = useSwipeable({
+    onSwipedLeft: () => setIndex((i) => Math.min(PROFILES.length - 1, i + 1)),
+    onSwipedRight: () => setIndex((i) => Math.max(0, i - 1)),
+    preventScrollOnSwipe: true,
+    trackMouse: true,
+  });
 
   return (
     <div className="min-h-dvh bg-background overflow-y-auto">
@@ -88,11 +77,7 @@ export default function BrowsePage() {
             </div>
 
             {/* Swipeable card area */}
-            <div
-              onTouchStart={handleTouchStart}
-              onTouchEnd={handleTouchEnd}
-              style={{ touchAction: "pan-y" }}
-            >
+            <div {...swipeHandlers}>
               <ProfileCard
                 {...profile}
                 onChoose={() => setChosen(profile.name)}
