@@ -1,9 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { CuppaGuide } from "@/components/profile/CuppaGuide";
-import { Button } from "@/components/ui/button";
 
 const PROFILES = [
   {
@@ -32,7 +31,26 @@ const PROFILES = [
 export default function BrowsePage() {
   const [index, setIndex] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
+  const touchStartX = useRef<number | null>(null);
   const profile = PROFILES[index];
+
+  function handleTouchStart(e: React.TouchEvent) {
+    touchStartX.current = e.touches[0].clientX;
+  }
+
+  function handleTouchEnd(e: React.TouchEvent) {
+    if (touchStartX.current === null) return;
+    const delta = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(delta) < 50) return; // ignore small movements
+    if (delta > 0) {
+      // swiped left → next
+      setIndex((i) => Math.min(PROFILES.length - 1, i + 1));
+    } else {
+      // swiped right → previous
+      setIndex((i) => Math.max(0, i - 1));
+    }
+    touchStartX.current = null;
+  }
 
   return (
     <div className="min-h-dvh bg-background overflow-y-auto">
@@ -58,6 +76,7 @@ export default function BrowsePage() {
               <span className="text-sm text-muted-foreground">{index + 1} of {PROFILES.length}</span>
             </div>
 
+            {/* Swipe dots */}
             <div className="flex justify-center gap-1.5 mb-4">
               {PROFILES.map((_, i) => (
                 <div
@@ -68,30 +87,21 @@ export default function BrowsePage() {
               ))}
             </div>
 
-            <ProfileCard
-              {...profile}
-              onChoose={() => setChosen(profile.name)}
-              onViewProfile={() => {}}
-            />
-
-            <div className="flex justify-between px-6 mt-4">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIndex((i) => Math.max(0, i - 1))}
-                disabled={index === 0}
-              >
-                ← Previous
-              </Button>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => setIndex((i) => Math.min(PROFILES.length - 1, i + 1))}
-                disabled={index === PROFILES.length - 1}
-              >
-                Next →
-              </Button>
+            {/* Swipeable card area */}
+            <div
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
+              <ProfileCard
+                {...profile}
+                onChoose={() => setChosen(profile.name)}
+                onViewProfile={() => {}}
+              />
             </div>
+
+            <p className="text-center text-xs text-muted-foreground mt-4">
+              Swipe to browse
+            </p>
 
             <div className="px-4 mt-4">
               <CuppaGuide message="These 3 people are your best matches today. Take a look at each one before you decide." />
