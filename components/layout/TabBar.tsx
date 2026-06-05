@@ -73,8 +73,9 @@ export function TabBar() {
           <Link
             key={tab.label}
             href={tab.href}
-            className="flex flex-1 flex-col items-center justify-center gap-1 pt-2 pb-1"
-            style={{ color: active ? "var(--color-primary)" : "var(--color-muted-foreground)" }}
+            className={`flex flex-1 flex-col items-center justify-center gap-1 pt-2 pb-1 ${
+              active ? "text-primary" : "text-muted-foreground"
+            }`}
           >
             {tab.icon}
             <span className="text-[10px] font-medium">{tab.label}</span>

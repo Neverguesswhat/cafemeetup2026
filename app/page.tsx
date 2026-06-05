@@ -31,11 +31,9 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setSelected("chooser")}
-            className="flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-colors"
-            style={{
-              borderColor: selected === "chooser" ? "var(--color-primary)" : "var(--color-border)",
-              background: "var(--color-background)",
-            }}
+            className={`flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-colors bg-background w-full ${
+              selected === "chooser" ? "border-primary" : "border-border"
+            }`}
           >
             <div className="w-16 h-16 rounded-xl bg-muted flex items-center justify-center shrink-0 text-3xl">
               🫵
@@ -51,11 +49,9 @@ export default function Home() {
           <button
             type="button"
             onClick={() => setSelected("chosen")}
-            className="flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-colors"
-            style={{
-              borderColor: selected === "chosen" ? "var(--color-primary)" : "var(--color-border)",
-              background: "var(--color-background)",
-            }}
+            className={`flex items-center gap-4 p-4 rounded-2xl border-2 text-left transition-colors bg-background w-full ${
+              selected === "chosen" ? "border-primary" : "border-border"
+            }`}
           >
             <div className="w-16 h-16 rounded-xl bg-muted flex items-center justify-center shrink-0 text-3xl">
               🪑

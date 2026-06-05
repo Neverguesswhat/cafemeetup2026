@@ -66,12 +66,8 @@ export default function BrowsePage() {
           {PROFILES.map((_, i) => (
             <div
               key={i}
-              className="rounded-full transition-all duration-200"
-              style={{
-                width: i === index ? 18 : 6,
-                height: 6,
-                background: i === index ? "var(--color-primary)" : "var(--color-border)",
-              }}
+              className={`rounded-full transition-all duration-200 ${i === index ? "bg-primary" : "bg-border"}`}
+              style={{ width: i === index ? 18 : 6, height: 6 }}
             />
           ))}
         </div>
