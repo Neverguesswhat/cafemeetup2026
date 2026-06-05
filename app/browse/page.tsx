@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, useCallback } from "react";
+import { useRef, useState, useEffect } from "react";
 import { TabBar } from "@/components/layout/TabBar";
 
 const PROFILES = [
@@ -30,12 +30,20 @@ const PROFILES = [
 export default function BrowsePage() {
   const [index, setIndex] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
-  const handleScroll = useCallback(() => {
-    const el = scrollRef.current;
-    if (!el) return;
-    setIndex(Math.round(el.scrollLeft / el.offsetWidth));
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    slideRefs.current.forEach((slide, i) => {
+      if (!slide) return;
+      const observer = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setIndex(i); },
+        { threshold: 0.6 }
+      );
+      observer.observe(slide);
+      observers.push(observer);
+    });
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   if (chosen) {
@@ -75,8 +83,6 @@ export default function BrowsePage() {
 
       {/* Carousel */}
       <div
-        ref={scrollRef}
-        onScroll={handleScroll}
         className="snap-carousel flex flex-1 overflow-x-scroll overflow-y-hidden min-h-0"
         style={{
           scrollSnapType: "x mandatory",
@@ -88,6 +94,7 @@ export default function BrowsePage() {
         {PROFILES.map((p, i) => (
           <div
             key={i}
+            ref={(el) => { slideRefs.current[i] = el; }}
             className="flex-shrink-0 w-screen h-full flex flex-col px-4 pb-3"
             style={{ scrollSnapAlign: "start" }}
           >
