@@ -91,6 +91,7 @@ export default function BrowsePage() {
             <div
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
+              style={{ touchAction: "pan-y" }}
             >
               <ProfileCard
                 {...profile}
