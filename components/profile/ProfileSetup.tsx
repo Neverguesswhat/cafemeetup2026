@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -209,19 +208,27 @@ export function ProfileSetup() {
         </div>
       )}
 
-      <div className="flex gap-3 mt-8">
+      <div className="flex gap-3 mt-8 pb-[env(safe-area-inset-bottom,16px)]">
         {step > 0 && (
-          <Button variant="outline" className="flex-1" onClick={() => setStep((s) => s - 1)}>
+          <button
+            type="button"
+            className="flex-1 h-12 rounded-lg border border-border bg-background text-sm font-medium"
+            onClick={() => setStep((s) => s - 1)}
+          >
             Back
-          </Button>
+          </button>
         )}
-        <Button
-          className="flex-1"
-          disabled={!canAdvance()}
-          onClick={() => { if (step < 3) setStep((s) => s + 1); }}
+        <button
+          type="button"
+          className={`flex-1 h-12 rounded-lg text-sm font-medium transition-opacity
+            ${canAdvance()
+              ? "bg-primary text-primary-foreground"
+              : "bg-muted text-muted-foreground opacity-50 pointer-events-none"
+            }`}
+          onClick={() => { if (canAdvance() && step < 3) setStep((s) => s + 1); }}
         >
           {step === 3 ? "All done" : "Continue"}
-        </Button>
+        </button>
       </div>
     </div>
   );
