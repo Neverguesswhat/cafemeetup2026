@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { Suspense } from "react";
 
 const TABS = [
   {
@@ -59,9 +60,8 @@ const TABS = [
   },
 ];
 
-export function TabBar() {
+function TabBarInner() {
   const pathname = usePathname();
-
   return (
     <div
       className="shrink-0 bg-background border-t border-border flex items-stretch"
@@ -83,5 +83,17 @@ export function TabBar() {
         );
       })}
     </div>
+  );
+}
+
+export function TabBar() {
+  return (
+    <Suspense fallback={
+      <div className="shrink-0 bg-background border-t border-border h-16"
+        style={{ paddingBottom: "env(safe-area-inset-bottom, 0px)" }}
+      />
+    }>
+      <TabBarInner />
+    </Suspense>
   );
 }
