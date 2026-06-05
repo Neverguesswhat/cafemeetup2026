@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <div className="min-h-screen bg-[#1a1d21] flex flex-col items-center justify-center gap-6 p-8">
+    <div className="min-h-dvh bg-[#1a1d21] flex flex-col items-center justify-center gap-6 px-6">
       <div className="text-center">
-        <h1 className="text-3xl font-bold text-white mb-2">Cafe Meetup 2026</h1>
+        <h1 className="text-3xl font-bold text-white mb-2">Cafe Meetup</h1>
         <p className="text-[#787880] text-sm">Prototype screens</p>
       </div>
-      <div className="flex flex-col gap-3 w-full max-w-xs">
+      <div className="flex flex-col gap-3 w-full max-w-sm">
         <Link
           href="/profile"
           className="flex items-center justify-between h-14 px-5 rounded-2xl bg-[#6227d7] text-white font-semibold text-sm"

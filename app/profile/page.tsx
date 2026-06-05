@@ -1,10 +1,9 @@
-import { PhoneShell } from "@/components/profile/PhoneShell";
 import { ProfileSetup } from "@/components/profile/ProfileSetup";
 
 export default function ProfilePage() {
   return (
-    <PhoneShell>
+    <div className="min-h-dvh bg-white overflow-y-auto">
       <ProfileSetup />
-    </PhoneShell>
+    </div>
   );
 }

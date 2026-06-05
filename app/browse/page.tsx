@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { PhoneShell } from "@/components/profile/PhoneShell";
 import { ProfileCard } from "@/components/profile/ProfileCard";
 import { CuppaGuide } from "@/components/profile/CuppaGuide";
 
@@ -36,8 +35,8 @@ export default function BrowsePage() {
   const profile = PROFILES[index];
 
   return (
-    <PhoneShell>
-      <div className="pt-4">
+    <div className="min-h-dvh bg-white overflow-y-auto">
+      <div className="pt-14 pb-8">
         {chosen ? (
           <div className="px-4 pt-8 flex flex-col items-center gap-4 text-center">
             <div
@@ -53,11 +52,12 @@ export default function BrowsePage() {
               Now propose 3 meetup options — a date, time and location for each.
               {chosen} has 15 minutes to respond once you send them.
             </p>
-            <CuppaGuide message={`Great choice. Now let's set up your meetup options for ${chosen}. Remember — once you send these, you're committed.`} />
+            <div className="w-full px-4">
+              <CuppaGuide message={`Great choice. Now let's set up your meetup options for ${chosen}. Remember — once you send these, you're committed.`} />
+            </div>
           </div>
         ) : (
           <>
-            {/* Header */}
             <div className="flex items-center justify-between px-4 mb-4">
               <h1 className="text-[22px] font-bold text-[#2b2d31]">Choose someone</h1>
               <span className="text-sm text-[#787880]">
@@ -65,7 +65,6 @@ export default function BrowsePage() {
               </span>
             </div>
 
-            {/* Swipe dots */}
             <div className="flex justify-center gap-1.5 mb-4">
               {PROFILES.map((_, i) => (
                 <div
@@ -86,7 +85,6 @@ export default function BrowsePage() {
               onViewProfile={() => {}}
             />
 
-            {/* Prev/Next nav */}
             <div className="flex justify-between px-6 mt-4">
               <button
                 className="text-sm text-[#787880] font-medium disabled:opacity-30"
@@ -110,6 +108,6 @@ export default function BrowsePage() {
           </>
         )}
       </div>
-    </PhoneShell>
+    </div>
   );
 }
