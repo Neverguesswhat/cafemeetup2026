@@ -24,16 +24,10 @@ const CUPPA_MESSAGES = [
   "Almost done. Set up a safety contact — someone who'll be notified if you ever need help on a meetup.",
 ];
 
-interface PhotoSlot {
-  id: number;
-  filled: boolean;
-}
-
 export function ProfileSetup() {
   const [step, setStep] = useState(0);
 
-  // Step 0 — Photos
-  const [photos] = useState<PhotoSlot[]>([
+  const [photos] = useState([
     { id: 1, filled: true },
     { id: 2, filled: false },
     { id: 3, filled: false },
@@ -42,19 +36,14 @@ export function ProfileSetup() {
     { id: 6, filled: false },
   ]);
 
-  // Step 1 — Basics
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [job, setJob] = useState("");
   const [bio, setBio] = useState("");
-
-  // Step 2 — Interests
   const [interests, setInterests] = useState<string[]>(["Live music", "Hiking"]);
-
-  // Step 3 — Safety
   const [emergencyName, setEmergencyName] = useState("");
   const [emergencyPhone, setEmergencyPhone] = useState("");
-  const [notifyPref, setNotifyPref] = useState<string>("");
+  const [notifyPref, setNotifyPref] = useState("");
 
   function toggleInterest(label: string) {
     setInterests((prev) =>
@@ -74,53 +63,37 @@ export function ProfileSetup() {
     return false;
   }
 
+  const titles = ["Your photos", "About you", "Your interests", "Stay safe"];
+  const subtitles = ["Step 1 of 4", "Step 2 of 4", "Step 3 of 4", "Step 4 of 4"];
+
   return (
-    <div className="px-4 pt-6">
-      <h1 className="text-[22px] font-bold text-[#2b2d31] mb-1">
-        {step === 0 && "Your photos"}
-        {step === 1 && "About you"}
-        {step === 2 && "Your interests"}
-        {step === 3 && "Stay safe"}
-      </h1>
-      <p className="text-sm text-[#787880] mb-4">
-        {step === 0 && "Step 1 of 4"}
-        {step === 1 && "Step 2 of 4"}
-        {step === 2 && "Step 3 of 4"}
-        {step === 3 && "Step 4 of 4"}
-      </p>
+    <div className="px-4 pt-14 pb-8">
+      <h1 className="text-2xl font-bold mb-0.5">{titles[step]}</h1>
+      <p className="text-sm text-muted-foreground mb-4">{subtitles[step]}</p>
 
       <StepIndicator current={step} />
       <CuppaGuide message={CUPPA_MESSAGES[step]} />
 
-      {/* STEP 0 — Photos */}
       {step === 0 && (
         <div className="grid grid-cols-3 gap-2">
           {photos.map((photo, i) => (
             <div
               key={photo.id}
-              className="aspect-square rounded-2xl flex items-center justify-center relative overflow-hidden"
-              style={{
-                background: photo.filled ? "#e6e9e6" : "#f5f5f5",
-                border: photo.filled ? "none" : "2px dashed #e6e9e6",
-              }}
+              className={`aspect-square rounded-2xl flex items-center justify-center relative overflow-hidden
+                ${photo.filled ? "bg-muted" : "bg-background border-2 border-dashed border-border"}`}
             >
               {photo.filled ? (
-                <div className="w-full h-full bg-gradient-to-br from-[#e6e9e6] to-[#c8ccc8] flex items-center justify-center">
+                <div className="w-full h-full bg-muted flex items-center justify-center">
                   <span className="text-3xl">👤</span>
                 </div>
               ) : (
                 <div className="flex flex-col items-center gap-1">
-                  <span className="text-2xl text-[#c0c0c0]">+</span>
-                  {i === 0 && (
-                    <span className="text-[10px] text-[#787880]">Main photo</span>
-                  )}
+                  <span className="text-2xl text-muted-foreground">+</span>
+                  {i === 0 && <span className="text-[10px] text-muted-foreground">Main photo</span>}
                 </div>
               )}
               {photo.filled && (
-                <div
-                  className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full flex items-center justify-center text-white text-xs"
-                  style={{ background: "#6227d7" }}
-                >
+                <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs">
                   ✓
                 </div>
               )}
@@ -129,69 +102,52 @@ export function ProfileSetup() {
         </div>
       )}
 
-      {/* STEP 1 — Basics */}
       {step === 1 && (
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-semibold text-[#2b2d31]">First name</Label>
-            <Input
-              placeholder="e.g. James"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="h-12 rounded-2xl border-[#e6e9e6] bg-[#f9f9f9] text-[#2b2d31] placeholder:text-[#c0c0c0]"
-            />
+            <Label>First name</Label>
+            <Input placeholder="e.g. James" value={name} onChange={(e) => setName(e.target.value)} />
           </div>
-
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-semibold text-[#2b2d31]">Age</Label>
+            <Label>Age</Label>
             <Select onValueChange={(v: string | null) => setAge(v || "")}>
-              <SelectTrigger className="h-12 rounded-2xl border-[#e6e9e6] bg-[#f9f9f9] text-[#2b2d31]">
+              <SelectTrigger>
                 <SelectValue placeholder="Select your age" />
               </SelectTrigger>
               <SelectContent>
                 {Array.from({ length: 52 }, (_, i) => i + 18).map((a) => (
-                  <SelectItem key={a} value={String(a)}>
-                    {a}
-                  </SelectItem>
+                  <SelectItem key={a} value={String(a)}>{a}</SelectItem>
                 ))}
               </SelectContent>
             </Select>
           </div>
-
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-semibold text-[#2b2d31]">What do you do?</Label>
-            <Input
-              placeholder="e.g. Veterinarian at AHS"
-              value={job}
-              onChange={(e) => setJob(e.target.value)}
-              className="h-12 rounded-2xl border-[#e6e9e6] bg-[#f9f9f9] text-[#2b2d31] placeholder:text-[#c0c0c0]"
-            />
+            <Label>What do you do?</Label>
+            <Input placeholder="e.g. Veterinarian at AHS" value={job} onChange={(e) => setJob(e.target.value)} />
           </div>
-
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-semibold text-[#2b2d31]">
-              Bio <span className="font-normal text-[#787880]">(optional)</span>
+            <Label>
+              Bio <span className="font-normal text-muted-foreground">(optional)</span>
             </Label>
             <Textarea
               placeholder="A sentence or two about you…"
               value={bio}
               onChange={(e) => setBio(e.target.value)}
-              className="rounded-2xl border-[#e6e9e6] bg-[#f9f9f9] text-[#2b2d31] placeholder:text-[#c0c0c0] resize-none"
               rows={3}
               maxLength={150}
+              className="resize-none"
             />
-            <p className="text-xs text-[#787880] text-right">{bio.length}/150</p>
+            <p className="text-xs text-muted-foreground text-right">{bio.length}/150</p>
           </div>
         </div>
       )}
 
-      {/* STEP 2 — Interests */}
       {step === 2 && (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-[#787880]">{interests.length}/8 selected</span>
+            <span className="text-sm text-muted-foreground">{interests.length}/8 selected</span>
             {interests.length === 8 && (
-              <span className="text-xs text-[#6227d7] font-medium">Max reached</span>
+              <span className="text-xs text-primary font-medium">Max reached</span>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -207,48 +163,40 @@ export function ProfileSetup() {
         </div>
       )}
 
-      {/* STEP 3 — Safety */}
       {step === 3 && (
         <div className="flex flex-col gap-4">
-          <div
-            className="rounded-2xl p-4 mb-2"
-            style={{ background: "#fff8e6", border: "1px solid #f9dd71" }}
-          >
-            <p className="text-sm text-[#2b2d31] leading-snug">
-              <span className="font-semibold">Why this matters.</span> If you enter the code{" "}
-              <span className="font-mono font-bold text-[#c02f33]">4357</span> (HELP) at a meetup,
-              your contact will instantly receive your location via SMS.
+          <div className="rounded-2xl p-4 mb-2 bg-muted border border-border">
+            <p className="text-sm leading-snug">
+              <span className="font-semibold">Why this matters.</span>{" "}
+              If you enter the code{" "}
+              <span className="font-mono font-bold text-destructive">4357</span>{" "}
+              (HELP) at a meetup, your contact will instantly receive your location via SMS.
             </p>
           </div>
-
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-semibold text-[#2b2d31]">Emergency contact name</Label>
+            <Label>Emergency contact name</Label>
             <Input
               placeholder="e.g. Sarah Smith"
               value={emergencyName}
               onChange={(e) => setEmergencyName(e.target.value)}
-              className="h-12 rounded-2xl border-[#e6e9e6] bg-[#f9f9f9] text-[#2b2d31] placeholder:text-[#c0c0c0]"
             />
           </div>
-
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-semibold text-[#2b2d31]">Their phone number</Label>
+            <Label>Their phone number</Label>
             <Input
               type="tel"
               placeholder="+1 (555) 000-0000"
               value={emergencyPhone}
               onChange={(e) => setEmergencyPhone(e.target.value)}
-              className="h-12 rounded-2xl border-[#e6e9e6] bg-[#f9f9f9] text-[#2b2d31] placeholder:text-[#c0c0c0]"
             />
-            <p className="text-xs text-[#787880]">
+            <p className="text-xs text-muted-foreground">
               They don't need the app. They'll receive a text from us.
             </p>
           </div>
-
           <div className="flex flex-col gap-1.5">
-            <Label className="text-sm font-semibold text-[#2b2d31]">Notify me via</Label>
+            <Label>Notify me via</Label>
             <Select onValueChange={(v: string | null) => setNotifyPref(v || "")}>
-              <SelectTrigger className="h-12 rounded-2xl border-[#e6e9e6] bg-[#f9f9f9] text-[#2b2d31]">
+              <SelectTrigger>
                 <SelectValue placeholder="Choose preference" />
               </SelectTrigger>
               <SelectContent>
@@ -261,30 +209,18 @@ export function ProfileSetup() {
         </div>
       )}
 
-      {/* Navigation */}
       <div className="flex gap-3 mt-8">
         {step > 0 && (
-          <Button
-            variant="outline"
-            className="flex-1 h-12 rounded-full border-[#e6e9e6] text-[#2b2d31] font-semibold"
-            onClick={() => setStep((s) => s - 1)}
-          >
+          <Button variant="outline" className="flex-1" onClick={() => setStep((s) => s - 1)}>
             Back
           </Button>
         )}
         <Button
-          className="flex-1 h-12 rounded-full font-semibold text-white"
-          style={{
-            background: canAdvance() ? "#6227d7" : "#e6e9e6",
-            color: canAdvance() ? "#fff" : "#787880",
-            cursor: canAdvance() ? "pointer" : "not-allowed",
-          }}
+          className="flex-1"
           disabled={!canAdvance()}
-          onClick={() => {
-            if (step < 3) setStep((s) => s + 1);
-          }}
+          onClick={() => { if (step < 3) setStep((s) => s + 1); }}
         >
-          {step === 3 ? "All done 🎉" : "Continue"}
+          {step === 3 ? "All done" : "Continue"}
         </Button>
       </div>
     </div>

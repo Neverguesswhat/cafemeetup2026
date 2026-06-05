@@ -49,39 +49,38 @@
 }
 
 :root {
-  /* Cafe Meetup 2026 — design tokens from Figma */
   --background: oklch(1 0 0);
-  --foreground: oklch(0.18 0.01 255);        /* #2b2d31 */
-  --card: oklch(0.96 0.003 120);             /* #e6e9e6 */
-  --card-foreground: oklch(0.18 0.01 255);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.18 0.01 255);
-  --primary: oklch(0.41 0.21 285);           /* #6227d7 purple */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.52 0.1 170);          /* #0c8871 teal */
-  --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.96 0.003 120);            /* #e6e9e6 */
-  --muted-foreground: oklch(0.42 0.01 255);  /* #787880 */
-  --accent: oklch(0.53 0.2 255);             /* #006fff blue */
-  --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.45 0.18 25);        /* #c02f33 red */
-  --border: oklch(0.92 0.003 120);
-  --input: oklch(0.92 0.003 120);
-  --ring: oklch(0.41 0.21 285);
-  --radius: 1rem;                            /* 16px base = lg cards */
-  --chart-1: oklch(0.41 0.21 285);
-  --chart-2: oklch(0.52 0.1 170);
-  --chart-3: oklch(0.53 0.2 255);
-  --chart-4: oklch(0.45 0.18 25);
-  --chart-5: oklch(0.18 0.01 255);
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.18 0.01 255);
-  --sidebar-primary: oklch(0.41 0.21 285);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.96 0.003 120);
-  --sidebar-accent-foreground: oklch(0.18 0.01 255);
-  --sidebar-border: oklch(0.92 0.003 120);
-  --sidebar-ring: oklch(0.41 0.21 285);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
 }
 
 .dark {
@@ -126,8 +125,5 @@
     @apply bg-background text-foreground;
     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
     -webkit-font-smoothing: antialiased;
-  }
-  html {
-    @apply font-sans;
   }
 }
