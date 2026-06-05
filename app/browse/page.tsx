@@ -30,15 +30,18 @@ const PROFILES = [
 export default function BrowsePage() {
   const [index, setIndex] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
 
   useEffect(() => {
+    const root = scrollRef.current;
+    if (!root) return;
     const observers: IntersectionObserver[] = [];
     slideRefs.current.forEach((slide, i) => {
       if (!slide) return;
       const observer = new IntersectionObserver(
         ([entry]) => { if (entry.isIntersecting) setIndex(i); },
-        { threshold: 0.6 }
+        { root, threshold: 0.6 }
       );
       observer.observe(slide);
       observers.push(observer);
@@ -83,6 +86,7 @@ export default function BrowsePage() {
 
       {/* Carousel */}
       <div
+        ref={scrollRef}
         className="snap-carousel flex flex-1 overflow-x-scroll overflow-y-hidden min-h-0"
         style={{
           scrollSnapType: "x mandatory",
