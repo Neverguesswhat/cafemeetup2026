@@ -34,25 +34,40 @@ export default function BrowsePage() {
   const [index, setIndex] = useState(0);
   const [chosen, setChosen] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
-  const slideRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const startX = useRef(0);
+  const lastX = useRef(0);
 
+  // Scroll listener as a reliable fallback — fires on mobile even when touch events don't
   useEffect(() => {
-    const root = scrollRef.current;
-    if (!root) return;
-    const cleanup: (() => void)[] = [];
-
-    slideRefs.current.forEach((slide, i) => {
-      if (!slide) return;
-      const observer = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setIndex(i); },
-        { root, threshold: 0.5 }
-      );
-      observer.observe(slide);
-      cleanup.push(() => observer.disconnect());
-    });
-
-    return () => cleanup.forEach((fn) => fn());
+    const el = scrollRef.current;
+    if (!el) return;
+    let timer: ReturnType<typeof setTimeout>;
+    const onScroll = () => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        setIndex(Math.round(el.scrollLeft / el.offsetWidth));
+      }, 300);
+    };
+    el.addEventListener("scroll", onScroll, { passive: true });
+    return () => { el.removeEventListener("scroll", onScroll); clearTimeout(timer); };
   }, []);
+
+  const onTouchStart = (e: React.TouchEvent) => {
+    startX.current = e.touches[0].clientX;
+    lastX.current = e.touches[0].clientX;
+  };
+
+  const onTouchMove = (e: React.TouchEvent) => {
+    lastX.current = e.touches[0].clientX;
+  };
+
+  // iOS fires touchcancel (not touchend) when it takes over the scroll gesture
+  const commit = (e: React.TouchEvent) => {
+    const endX = e.changedTouches?.[0]?.clientX ?? lastX.current;
+    const dx = startX.current - endX;
+    if (dx > 40) setIndex((i) => Math.min(i + 1, PROFILES.length - 1));
+    else if (dx < -40) setIndex((i) => Math.max(i - 1, 0));
+  };
 
   const current = PROFILES[index];
 
@@ -72,14 +87,15 @@ export default function BrowsePage() {
   }
 
   return (
-    <div className="fixed inset-0 bg-background flex flex-col">
+    <div
+      className="fixed inset-0 bg-background flex flex-col"
+      onTouchStart={onTouchStart}
+      onTouchMove={onTouchMove}
+      onTouchEnd={commit}
+      onTouchCancel={commit}
+    >
 
-      {/* Header */}
-      <div className="px-4 pt-14 pb-2 shrink-0">
-        <h1 className="text-xl font-bold">Choose someone</h1>
-      </div>
-
-      {/* Photo-only carousel — no padding, edge to edge */}
+      {/* CSS scroll-snap carousel — native swipe, proven on mobile */}
       <div
         ref={scrollRef}
         className="snap-carousel flex-1 flex overflow-x-scroll overflow-y-hidden min-h-0"
@@ -93,25 +109,22 @@ export default function BrowsePage() {
         {PROFILES.map((p, i) => (
           <div
             key={i}
-            ref={(el) => { slideRefs.current[i] = el; }}
             className="flex-shrink-0 w-screen h-full relative"
             style={{ scrollSnapAlign: "start" }}
           >
             <img
               src={p.photo}
               alt={p.name}
-              className="w-full h-full object-cover object-top"
+              className="w-full h-full object-cover"
+              style={{ objectPosition: "center 5%" }}
             />
 
-            {/* Gradient overlay */}
             <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-            {/* Distance badge */}
             <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm">
               <span className="text-white text-xs font-medium">📍 {p.distance}</span>
             </div>
 
-            {/* Name, job, interests overlaid */}
             <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
               <div className="flex items-baseline gap-2 mb-0.5">
                 <span className="text-2xl font-bold text-white">{p.name}</span>
@@ -133,14 +146,18 @@ export default function BrowsePage() {
         ))}
       </div>
 
-      {/* Pagination dots + buttons — static, outside carousel */}
-      <div className="shrink-0 px-4 pt-3 pb-3">
-        <div className="flex justify-center gap-1.5 mb-3">
+      {/* Dots update from touch direction — no scroll event dependency */}
+      <div className="shrink-0 px-4 pt-6 pb-6 bg-background">
+        <div className="flex justify-center gap-1.5 mb-6">
           {PROFILES.map((_, i) => (
             <div
               key={i}
-              className={`rounded-full transition-all duration-200 ${i === index ? "bg-primary" : "bg-border"}`}
-              style={{ width: i === index ? 18 : 6, height: 6 }}
+              className="rounded-full transition-all duration-200"
+              style={{
+                width: i === index ? 18 : 6,
+                height: 6,
+                background: i === index ? "#000" : "#d1d5db",
+              }}
             />
           ))}
         </div>
