@@ -9,6 +9,7 @@ const PROFILES = [
     age: 32,
     job: "NGO Executive Assistant",
     distance: "1.3mi",
+    photo: "/profiles/laura.svg",
     interests: ["Restaurants", "Rooftop bars", "Reading", "Movies", "Painting"],
   },
   {
@@ -16,6 +17,7 @@ const PROFILES = [
     age: 29,
     job: "Veterinarian at AHS",
     distance: "1.7mi",
+    photo: "/profiles/charlotte.svg",
     interests: ["Live music", "Hiking", "Board games", "Dogs", "Reading"],
   },
   {
@@ -23,6 +25,7 @@ const PROFILES = [
     age: 27,
     job: "Graphic Designer",
     distance: "2.1mi",
+    photo: "/profiles/sarah.svg",
     interests: ["Art galleries", "Coffee", "Cycling", "Travel", "Photography"],
   },
 ];
@@ -104,10 +107,12 @@ export default function BrowsePage() {
           >
             {/* Photo with overlaid info — fills all remaining space */}
             <div className="relative flex-1 rounded-3xl overflow-hidden bg-muted min-h-0">
-              {/* Photo placeholder */}
-              <div className="absolute inset-0 bg-gradient-to-b from-zinc-400 to-zinc-600 flex items-center justify-center">
-                <span className="text-8xl opacity-40">👤</span>
-              </div>
+              {/* Photo */}
+              <img
+                src={p.photo}
+                alt={p.name}
+                className="absolute inset-0 w-full h-full object-cover object-top"
+              />
 
               {/* Bottom gradient */}
               <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />

@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" width="400" height="500">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#b8a0d4"/>
+      <stop offset="100%" style="stop-color:#8060b0"/>
+    </linearGradient>
+    <linearGradient id="skin" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#e8b890"/>
+      <stop offset="100%" style="stop-color:#d09870"/>
+    </linearGradient>
+    <linearGradient id="hair" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a1a"/>
+      <stop offset="100%" style="stop-color:#0a0a0a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="400" height="500" fill="url(#bg)"/>
+
+  <!-- Body -->
+  <ellipse cx="200" cy="520" rx="160" ry="80" fill="#d09870"/>
+  <rect x="60" y="450" width="280" height="80" fill="#d09870"/>
+
+  <!-- Neck -->
+  <rect x="173" y="342" width="54" height="78" rx="10" fill="url(#skin)"/>
+
+  <!-- Head -->
+  <ellipse cx="200" cy="272" rx="90" ry="100" fill="url(#skin)"/>
+
+  <!-- Hair — voluminous, dark, pulled up loosely -->
+  <ellipse cx="200" cy="185" rx="105" ry="78" fill="url(#hair)"/>
+  <!-- Bun at top -->
+  <ellipse cx="200" cy="148" rx="48" ry="38" fill="#1a1a1a"/>
+  <!-- Side hair -->
+  <path d="M110 238 Q95 310 108 390 Q130 415 152 378 Q142 298 118 246 Z" fill="#1a1a1a"/>
+  <path d="M290 238 Q305 310 292 390 Q270 415 248 378 Q258 298 282 246 Z" fill="#1a1a1a"/>
+
+  <!-- Face -->
+  <ellipse cx="200" cy="285" rx="84" ry="91" fill="url(#skin)"/>
+
+  <!-- Ears -->
+    <ellipse cx="116" cy="285" rx="13" ry="17" fill="#d09870"/>
+  <ellipse cx="284" cy="285" rx="13" ry="17" fill="#d09870"/>
+
+  <!-- Earrings -->
+  <circle cx="116" cy="305" r="5" fill="#d4af37"/>
+  <circle cx="284" cy="305" r="5" fill="#d4af37"/>
+
+  <!-- Eyebrows — defined, straight -->
+  <path d="M155 247 Q172 241 190 244" stroke="#1a1a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+  <path d="M210 244 Q228 241 245 247" stroke="#1a1a1a" stroke-width="4.5" fill="none" stroke-linecap="round"/>
+
+  <!-- Eyes — dark brown, almond shaped -->
+  <path d="M156 264 Q172 254 190 264 Q172 274 156 264 Z" fill="white"/>
+  <path d="M210 264 Q228 254 244 264 Q228 274 210 264 Z" fill="white"/>
+  <circle cx="173" cy="264" r="7.5" fill="#2a1a0a"/>
+  <circle cx="227" cy="264" r="7.5" fill="#2a1a0a"/>
+  <circle cx="176" cy="261" r="2.5" fill="white"/>
+  <circle cx="230" cy="261" r="2.5" fill="white"/>
+
+  <!-- Eyeliner effect -->
+  <path d="M156 264 Q172 254 190 264" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+  <path d="M210 264 Q228 254 244 264" stroke="#1a1a1a" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+  <!-- Nose -->
+  <path d="M197 272 Q193 290 188 298 Q200 304 212 298 Q207 290 203 272" fill="#b88060" opacity="0.4"/>
+
+  <!-- Lips — fuller -->
+  <path d="M178 320 Q200 332 222 320" fill="#c06858"/>
+  <path d="M178 320 Q200 312 222 320" fill="#b05848"/>
+  <path d="M182 320 Q200 316 218 320" stroke="#903838" stroke-width="1" fill="none"/>
+
+  <!-- Hair wisps framing face -->
+  <path d="M115 220 Q118 240 116 260" stroke="#1a1a1a" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/>
+  <path d="M285 220 Q282 240 284 260" stroke="#1a1a1a" stroke-width="8" fill="none" stroke-linecap="round" opacity="0.7"/>
+</svg>
