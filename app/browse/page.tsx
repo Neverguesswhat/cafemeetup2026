@@ -54,7 +54,7 @@ export default function BrowsePage() {
 
   if (chosen) {
     return (
-      <div className="h-dvh bg-background flex flex-col">
+      <div className="fixed inset-0 bg-background flex flex-col">
         <div className="flex-1 flex flex-col items-center justify-center gap-4 px-6 text-center">
           <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-2xl">
             ✓
@@ -70,21 +70,11 @@ export default function BrowsePage() {
   }
 
   return (
-    <div className="h-dvh bg-background flex flex-col">
+    <div className="fixed inset-0 bg-background flex flex-col">
 
       {/* Header */}
       <div className="flex items-center justify-between px-4 pt-14 pb-3 shrink-0">
         <h1 className="text-xl font-bold">Choose someone</h1>
-        {/* Dots */}
-        <div className="flex gap-1.5 items-center">
-          {PROFILES.map((_, i) => (
-            <div
-              key={i}
-              className={`rounded-full transition-all duration-200 ${i === index ? "bg-primary" : "bg-border"}`}
-              style={{ width: i === index ? 18 : 6, height: 6 }}
-            />
-          ))}
-        </div>
       </div>
 
       {/* Carousel */}
@@ -102,27 +92,24 @@ export default function BrowsePage() {
           <div
             key={i}
             ref={(el) => { slideRefs.current[i] = el; }}
-            className="flex-shrink-0 w-screen h-full flex flex-col px-4 pb-3"
+            className="flex-shrink-0 w-screen h-full flex flex-col px-4"
             style={{ scrollSnapAlign: "start" }}
           >
-            {/* Photo with overlaid info — fills all remaining space */}
+            {/* Photo — fills remaining space */}
             <div className="relative flex-1 rounded-3xl overflow-hidden bg-muted min-h-0">
-              {/* Photo */}
               <img
                 src={p.photo}
                 alt={p.name}
                 className="absolute inset-0 w-full h-full object-cover object-top"
               />
-
-              {/* Bottom gradient */}
               <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
 
-              {/* Distance badge top-right */}
+              {/* Distance badge */}
               <div className="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-sm">
                 <span className="text-white text-xs font-medium">📍 {p.distance}</span>
               </div>
 
-              {/* Name, job, interests — bottom of photo */}
+              {/* Name, job, interests overlaid at bottom */}
               <div className="absolute bottom-0 left-0 right-0 px-4 pb-4">
                 <div className="flex items-baseline gap-2 mb-0.5">
                   <span className="text-2xl font-bold text-white">{p.name}</span>
@@ -142,26 +129,41 @@ export default function BrowsePage() {
               </div>
             </div>
 
-            {/* Buttons — white area below photo */}
-            <div className="flex gap-3 pt-3 shrink-0">
-              <button
-                type="button"
-                className="flex-1 h-12 rounded-full border border-border bg-background text-sm font-semibold"
-              >
-                View Profile
-              </button>
-              <button
-                type="button"
-                className="flex-1 h-12 rounded-full bg-primary text-primary-foreground text-sm font-semibold"
-                onClick={() => setChosen(p.name)}
-              >
-                Choose {p.name}
-              </button>
+            {/* Dots + Buttons — below photo */}
+            <div className="shrink-0 pt-3 pb-3">
+              {/* Pagination dots */}
+              <div className="flex justify-center gap-1.5 mb-3">
+                {PROFILES.map((_, di) => (
+                  <div
+                    key={di}
+                    className={`rounded-full transition-all duration-200 ${di === index ? "bg-primary" : "bg-border"}`}
+                    style={{ width: di === index ? 18 : 6, height: 6 }}
+                  />
+                ))}
+              </div>
+
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <button
+                  type="button"
+                  className="flex-1 h-12 rounded-full border border-border bg-background text-sm font-semibold"
+                >
+                  View Profile
+                </button>
+                <button
+                  type="button"
+                  className="flex-1 h-12 rounded-full bg-primary text-primary-foreground text-sm font-semibold"
+                  onClick={() => setChosen(p.name)}
+                >
+                  Choose {p.name}
+                </button>
+              </div>
             </div>
           </div>
         ))}
       </div>
 
+      {/* Fixed tab bar */}
       <TabBar />
     </div>
   );

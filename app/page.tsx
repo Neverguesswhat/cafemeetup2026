@@ -3,7 +3,7 @@ import { TabBar } from "@/components/layout/TabBar";
 
 export default function Home() {
   return (
-    <div className="h-dvh bg-background flex flex-col">
+    <div className="fixed inset-0 bg-background flex flex-col">
       <main className="flex-1 overflow-y-auto px-4 pt-16 pb-4">
 
         {/* Avatar */}
