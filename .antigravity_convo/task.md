@@ -1,0 +1,62 @@
+# Task Checklist: Predictive Search & Calendar Picker
+
+- [x] Implement predictive search and calendar datetime pickers in `/meetup-propose/page.tsx`
+  - [x] Add list of suggested venues
+  - [x] Create predictive search input component with dynamic dropdown filtration for location fields
+  - [x] Convert date-time text inputs to native `<input type="datetime-local">` calendar pickers
+  - [x] Implement helper function to parse human-readable defaults into local raw states
+  - [x] Implement `formatDateTime` helper to convert selected calendar dates into clean, human-readable strings on submit
+  - [x] Disable choosing past times/dates using the HTML5 `min` attribute
+- [x] Implement calendar picker in `/negotiate/page.tsx`
+  - [x] Convert custom date-time text input to a native `<input type="datetime-local">` calendar picker
+  - [x] Apply default parsing and proposal formatting on submit
+  - [x] Disable choosing past times/dates using the HTML5 `min` attribute
+- [x] Verify build compiles and functions correctly
+- [x] Add profile photo for James
+  - [x] Copy generated asset to public assets folder `/profiles/james.png`
+  - [x] Replace Confirmed Meetup Laptop icon placeholder in `app/page.tsx` with James's photo
+  - [x] Replace Account Page Laura icon fallback in `app/account/page.tsx` with James's photo
+  - [x] Add support for James/Sarah custom mapping in Black Book page `app/black-book/page.tsx`
+- [x] Customize HTML5 validation error message for past date selections
+  - [x] Set custom validity to "Date and Time must be in the future" on Proposal options page
+  - [x] Set custom validity to "Date and Time must be in the future" on Reschedule negotiation page
+- [x] Enforce date-time validation on negotiate page submission
+  - [x] Add programmatic check in handleSubmit to block past dates
+  - [x] Set form ID and associate the external propose button via HTML5 form submit behavior
+- [x] Adjust spacing above "Be Chosen" heading
+  - [x] Change pt-16 (64px) to pt-6 (24px) in app/waiting/page.tsx for both waiting and selected states
+- [x] Create vector profile avatar (SVG) for James
+  - [x] Write stylized vector male SVG at public/profiles/james.svg matching female avatar styles
+  - [x] Clean up old png asset james.png from codebase
+  - [x] Update references to use james.svg in app/page.tsx, app/account/page.tsx, and app/black-book/page.tsx
+  - [x] Redesign James profile avatar to be completely different (new warm sunset background gradient, stylish side-part hair, hazel-brown eyes, navy blue jacket and white t-shirt collar, clean-shaven face without glasses)
+- [x] Admin Page legible font sizes bump
+  - [x] Bump phone numbers and flag count labels from text-xs to text-sm
+  - [x] Bump button text sizes from text-xs to text-sm
+- [x] Correct Cooldown suspension period
+  - [x] Change admin ban duration from 30 days (720h) to 1 day (24h) in `adminBanUser` in `lib/state.tsx`
+- [x] Global app-wide small font sizes bump
+  - [x] Sanitized all sub-12px fonts (e.g. `text-[9px]`, `text-[10px]`, `text-[11px]`) to at least `text-xs` (12px)
+  - [x] Bumped all `text-xs` text elements to `text-sm` (14px)
+  - [x] Bumped key `text-sm` text elements (headings, descriptions, names) to `text-base` (16px) to preserve typography hierarchy
+- [x] Render User Profile Images dynamically and in Admin Panel
+  - [x] Add small profile picture avatars for James and Charlotte next to their names in the Admin Accounts list
+  - [x] Make the role selection homepage and Account page avatars dynamic (load `/profiles/${userPersona}.svg` instead of hardcoded James vs Charlotte switches)
+- [x] Embed Admin Moderation Panel Options inside Account page & Remove Standalone Admin View
+  - [x] Add support for "admin" userPersona in Account page header, avatar rendering, and profile greeting
+  - [x] Render the duplicate registration alert and User Accounts Control cards in the Account page only when userPersona is "admin"
+  - [x] Remove the redundant simulator switch button for System Admin from the Account page persona toggle list (leaving it inside the global DevConsole)
+  - [x] Wrap the admin panel options behind a premium segmented control at the top of the Account settings screen (toggling between "My Account" and "Admin Controls"), visible only for the admin persona
+  - [x] Remove the "Admin Page View" badge link button and completely delete the obsolete `app/admin` directory
+  - [x] Adapt the Admin Tab layout to show the clean dashboard panel and flat user account cards directly
+  - [x] Hide the safety emergency contact form from the "My Account" tab when the active persona is "admin"
+- [x] Fix admin segmented control rendering and inputs syncing (hydration mismatch resolution)
+  - [x] Add client-side mounting guard (`mounted` state) to `app/account/page.tsx` and `app/page.tsx`
+  - [x] Synchronize input fields (`contactName`, `contactPhone`, `notifyPref`) to update dynamically when context state changes
+- [x] Remove borders from all profile images
+  - [x] Remove border classes from `app/account/page.tsx` profile card and admin control list avatars
+  - [x] Remove border classes from `app/page.tsx` home screen avatar and confirmed date peer avatar
+  - [x] Remove border classes from `app/admin/page.tsx` user avatars
+  - [x] Remove border classes from `app/black-book/page.tsx` connection avatars
+
+

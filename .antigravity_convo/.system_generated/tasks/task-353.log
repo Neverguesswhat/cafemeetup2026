@@ -1,0 +1,103 @@
+
+> cafemeetup2026@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.7 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.184:3000
+✓ Ready in 191ms
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/neverguesswhat/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/neverguesswhat/Documents/Work/Projects/CafeMeetup2026/package-lock.json
+
+
+⚠ Blocked cross-origin request to Next.js dev resource /_next/webpack-hmr from "192.168.1.184".
+Cross-origin access to Next.js dev resources is blocked by default for safety.
+
+To allow this host in development, add it to "allowedDevOrigins" in next.config.js and restart the dev server:
+
+// next.config.js
+module.exports = {
+  allowedDevOrigins: ['192.168.1.184'],
+}
+
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+ GET / 200 in 215ms (next.js: 104ms, application-code: 111ms)
+ GET / 200 in 37ms (next.js: 8ms, application-code: 29ms)
+ GET / 200 in 33ms (next.js: 6ms, application-code: 28ms)
+ GET / 200 in 35ms (next.js: 5ms, application-code: 30ms)
+ GET / 200 in 40ms (next.js: 12ms, application-code: 29ms)
+ GET /messages 200 in 508ms (next.js: 472ms, application-code: 36ms)
+ GET / 200 in 31ms (next.js: 5ms, application-code: 26ms)
+ GET / 200 in 26ms (next.js: 5ms, application-code: 22ms)
+ GET /black-book 200 in 204ms (next.js: 170ms, application-code: 34ms)
+ GET / 200 in 15ms (next.js: 1182µs, application-code: 14ms)
+ GET / 200 in 27ms (next.js: 4ms, application-code: 22ms)
+✓ Compiled in 67ms
+ GET / 200 in 41ms (next.js: 8ms, application-code: 33ms)
+ GET / 200 in 27ms (next.js: 6ms, application-code: 21ms)
+ GET / 200 in 17ms (next.js: 1589µs, application-code: 16ms)
+ GET / 200 in 31ms (next.js: 4ms, application-code: 27ms)
+ GET / 200 in 18ms (next.js: 1113µs, application-code: 16ms)
+✓ Compiled in 26ms
+ GET / 200 in 37ms (next.js: 8ms, application-code: 29ms)
+ GET / 200 in 32ms (next.js: 6ms, application-code: 26ms)
+ GET / 200 in 34ms (next.js: 8ms, application-code: 26ms)
+ GET / 200 in 36ms (next.js: 6ms, application-code: 30ms)
+ GET / 200 in 36ms (next.js: 8ms, application-code: 28ms)
+ GET /browse 200 in 73ms (next.js: 27ms, application-code: 46ms)
+ GET / 200 in 29ms (next.js: 12ms, application-code: 18ms)
+ GET / 200 in 35ms (next.js: 7ms, application-code: 27ms)
+ GET /messages 200 in 39ms (next.js: 11ms, application-code: 27ms)
+ GET /account 200 in 310ms (next.js: 283ms, application-code: 27ms)
+ GET /account 200 in 35ms (next.js: 5ms, application-code: 31ms)
+ GET /mode 200 in 193ms (next.js: 172ms, application-code: 21ms)
+ GET /black-book 200 in 39ms (next.js: 10ms, application-code: 29ms)
+ GET /black-book 200 in 32ms (next.js: 4ms, application-code: 29ms)
+ GET / 200 in 34ms (next.js: 7ms, application-code: 26ms)
+ GET / 200 in 17ms (next.js: 2ms, application-code: 15ms)
+ GET /account 200 in 26ms (next.js: 6ms, application-code: 20ms)
+ GET / 200 in 15ms (next.js: 4ms, application-code: 11ms)
+ GET / 200 in 20ms (next.js: 5ms, application-code: 15ms)
+✓ Compiled in 44ms
+ GET /waiting 200 in 33ms (next.js: 20ms, application-code: 13ms)
+ GET / 200 in 21ms (next.js: 2ms, application-code: 18ms)
+ GET / 200 in 30ms (next.js: 3ms, application-code: 27ms)
+ GET / 200 in 37ms (next.js: 8ms, application-code: 29ms)
+ GET / 200 in 31ms (next.js: 6ms, application-code: 26ms)
+ GET /waiting 200 in 37ms (next.js: 3ms, application-code: 33ms)
+ GET /waiting 200 in 31ms (next.js: 908µs, application-code: 30ms)
+ GET /waiting 200 in 39ms (next.js: 1345µs, application-code: 37ms)
+ GET /waiting 200 in 31ms (next.js: 1139µs, application-code: 30ms)
+ GET /waiting 200 in 24ms (next.js: 1131µs, application-code: 23ms)
+ GET /waiting 200 in 16ms (next.js: 800µs, application-code: 16ms)
+ GET /waiting 200 in 8ms (next.js: 897µs, application-code: 7ms)
+ GET / 200 in 24ms (next.js: 4ms, application-code: 20ms)
+ GET / 200 in 40ms (next.js: 6ms, application-code: 33ms)
+ GET / 200 in 35ms (next.js: 7ms, application-code: 28ms)
+ GET / 200 in 32ms (next.js: 5ms, application-code: 27ms)
+ GET / 200 in 35ms (next.js: 8ms, application-code: 27ms)
+ GET / 200 in 32ms (next.js: 5ms, application-code: 27ms)
+ GET / 200 in 24ms (next.js: 1795µs, application-code: 23ms)
+⚠ Found a change in next.config.ts. Restarting the server to apply the changes...
+▲ Next.js 16.2.7 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.184:3000
+✓ Ready in 217ms
+⚠ Invalid next.config.ts options detected: 
+⚠     Unrecognized key(s) in object: 'allowedDevOrigins' at "experimental"
+⚠ See more info here: https://nextjs.org/docs/messages/invalid-next-config
+⚠ Warning: Next.js inferred your workspace root, but it may not be correct.
+ We detected multiple lockfiles and selected the directory of /Users/neverguesswhat/package-lock.json as the root directory.
+ To silence this warning, set `turbopack.root` in your Next.js config, or consider removing one of the lockfiles if it's not needed.
+   See https://nextjs.org/docs/app/api-reference/config/next-config-js/turbopack#root-directory for more information.
+ Detected additional lockfiles: 
+   * /Users/neverguesswhat/Documents/Work/Projects/CafeMeetup2026/package-lock.json
+
+- Experiments (use with caution):
+  ? allowedDevOrigins (invalid experimental key)
+
+ GET /waiting 200 in 204ms (next.js: 84ms, application-code: 120ms)

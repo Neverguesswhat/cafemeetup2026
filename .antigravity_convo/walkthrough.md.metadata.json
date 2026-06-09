@@ -1,0 +1,5 @@
+{
+  "artifactType": "ARTIFACT_TYPE_WALKTHROUGH",
+  "summary": "Walkthrough documenting the completed font size adjustments across the app, ensuring no fonts are under 12px and small elements are bumped up, as well as updating the admin cooldown duration from 720h (30 days) to 24h (1 day).",
+  "updatedAt": "2026-06-09T18:24:28.150337Z"
+}
