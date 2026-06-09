@@ -16,7 +16,7 @@ interface ProfileCardProps {
 
 export function ProfileCard({ name, age, job, distance, interests, onChoose, onViewProfile }: ProfileCardProps) {
   return (
-    <Card className="mx-4 overflow-hidden rounded-3xl border-border shadow-sm">
+    <Card className="mx-4 overflow-hidden rounded-3xl border-border">
       <div className="relative w-full flex items-center justify-center bg-muted" style={{ height: 320 }}>
         <span className="text-7xl">👤</span>
         <Badge

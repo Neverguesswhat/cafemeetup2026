@@ -66,9 +66,9 @@ export function ProfileSetup() {
   const subtitles = ["Step 1 of 4", "Step 2 of 4", "Step 3 of 4", "Step 4 of 4"];
 
   return (
-    <div className="px-4 pt-14 pb-8">
+    <div className="px-4 pt-6 pb-8">
       <h1 className="text-2xl font-bold mb-0.5">{titles[step]}</h1>
-      <p className="text-sm text-muted-foreground mb-4">{subtitles[step]}</p>
+      <p className="text-base text-muted-foreground mb-4">{subtitles[step]}</p>
 
       <StepIndicator current={step} />
       <CuppaGuide message={CUPPA_MESSAGES[step]} />
@@ -88,11 +88,11 @@ export function ProfileSetup() {
               ) : (
                 <div className="flex flex-col items-center gap-1">
                   <span className="text-2xl text-muted-foreground">+</span>
-                  {i === 0 && <span className="text-[10px] text-muted-foreground">Main photo</span>}
+                  {i === 0 && <span className="text-xs text-muted-foreground">Main photo</span>}
                 </div>
               )}
               {photo.filled && (
-                <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-xs">
+                <div className="absolute top-1.5 right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center text-primary-foreground text-sm">
                   ✓
                 </div>
               )}
@@ -136,7 +136,7 @@ export function ProfileSetup() {
               maxLength={150}
               className="resize-none"
             />
-            <p className="text-xs text-muted-foreground text-right">{bio.length}/150</p>
+            <p className="text-sm text-muted-foreground text-right">{bio.length}/150</p>
           </div>
         </div>
       )}
@@ -144,9 +144,9 @@ export function ProfileSetup() {
       {step === 2 && (
         <div>
           <div className="flex items-center justify-between mb-3">
-            <span className="text-sm text-muted-foreground">{interests.length}/8 selected</span>
+            <span className="text-base text-muted-foreground">{interests.length}/8 selected</span>
             {interests.length === 8 && (
-              <span className="text-xs text-primary font-medium">Max reached</span>
+              <span className="text-sm text-primary font-medium">Max reached</span>
             )}
           </div>
           <div className="flex flex-wrap gap-2">
@@ -188,7 +188,7 @@ export function ProfileSetup() {
               value={emergencyPhone}
               onChange={(e) => setEmergencyPhone(e.target.value)}
             />
-            <p className="text-xs text-muted-foreground">
+            <p className="text-sm text-muted-foreground">
               They don't need the app. They'll receive a text from us.
             </p>
           </div>
@@ -212,7 +212,7 @@ export function ProfileSetup() {
         {step > 0 && (
           <button
             type="button"
-            className="flex-1 h-12 rounded-lg border border-border bg-background text-sm font-medium"
+            className="flex-1 h-12 rounded-lg border border-border bg-background text-base font-medium"
             onClick={() => setStep((s) => s - 1)}
           >
             Back
@@ -220,7 +220,7 @@ export function ProfileSetup() {
         )}
         <button
           type="button"
-          className={`flex-1 h-12 rounded-lg text-sm font-medium transition-opacity
+          className={`flex-1 h-12 rounded-lg text-base font-medium transition-opacity
             ${canAdvance()
               ? "bg-primary text-primary-foreground"
               : "bg-muted text-muted-foreground opacity-50 pointer-events-none"
