@@ -300,7 +300,9 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
         codeAttempts = activeMeetup.code_attempts || 0;
         emergencyAlert = activeMeetup.emergency_alert || false;
         emergencyAlertDetails = activeMeetup.emergency_alert_details;
-        timerStart = new Date(activeMeetup.expires_at).getTime() - 15 * 60 * 1000;
+        timerStart = (activeMeetup.status !== "confirmed" && activeMeetup.expires_at)
+          ? (new Date(activeMeetup.expires_at).getTime() - 15 * 60 * 1000)
+          : null;
 
         if (activeMeetup.status === "proposed") {
           phase = "deciding";
@@ -552,7 +554,7 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
       const { data: meetup } = await supabase
         .from("meetups")
         .select("id, status, chosen_id")
-        .in("status", ["proposed", "negotiating", "confirmed"])
+        .in("status", ["proposed", "negotiating"])
         .or(`chooser_id.eq.${currentUserId},chosen_id.eq.${currentUserId}`)
         .order("created_at", { ascending: false })
         .limit(1)
