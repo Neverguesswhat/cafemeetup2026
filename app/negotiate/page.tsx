@@ -7,7 +7,7 @@ import { TabBar } from "@/components/layout/TabBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Timer, Coffee } from "lucide-react";
+import { Timer, Coffee, AlertCircle } from "lucide-react";
 
 const formatToLocalDateTimeInput = (date: Date): string => {
   const pad = (n: number) => n.toString().padStart(2, '0');
@@ -92,6 +92,8 @@ function NegotiateContent() {
   const searchParams = useSearchParams();
   const { state, editProposal } = useAppState();
   const [timeLeft, setTimeLeft] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const optionIndexStr = searchParams ? searchParams.get("option") : null;
   const optionIndex = optionIndexStr !== null ? parseInt(optionIndexStr, 10) : 0;
@@ -129,7 +131,7 @@ function NegotiateContent() {
     return () => clearInterval(interval);
   }, [state?.timerStart, state?.timerDuration]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (newTime.trim() === "") return;
 
@@ -144,8 +146,19 @@ function NegotiateContent() {
       return;
     }
 
-    editProposal(optionIndex, formatDateTime(newTime));
-    router.push("/");
+    setError(null);
+    setSubmitting(true);
+    const success = await editProposal(optionIndex, formatDateTime(newTime));
+    setSubmitting(false);
+
+    if (success) {
+      router.push("/");
+    } else {
+      setError(
+        "Violates Supabase Row Level Security (RLS) policies. Please ensure you have executed " +
+        "the required SQL UPDATE policies for 'meetups' in your Supabase SQL Editor."
+      );
+    }
   };
 
   if (!activeProposal) {
@@ -171,6 +184,16 @@ function NegotiateContent() {
               </div>
             )}
           </div>
+
+          {error && (
+            <div className="p-4 mb-6 rounded-3xl bg-red-50 border border-red-200 text-red-800 flex items-start gap-3 text-sm leading-relaxed">
+              <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+              <div className="flex-1">
+                <p className="font-bold mb-0.5">Database Reschedule Error</p>
+                <p>{error}</p>
+              </div>
+            </div>
+          )}
 
           <div className="p-4 rounded-2xl border border-border bg-slate-50 mb-6 flex flex-col gap-2">
             <span className="text-sm font-bold text-slate-500 uppercase">Selected Option {optionIndex + 1}</span>
@@ -209,8 +232,8 @@ function NegotiateContent() {
         </div>
 
         <div className="flex flex-col gap-2 mb-6">
-          <Button type="submit" form="negotiate-form" onClick={handleSubmit} className="w-full h-12 rounded-xl font-semibold">
-            Propose Time Reschedule
+          <Button type="submit" form="negotiate-form" onClick={handleSubmit} disabled={submitting} className="w-full h-12 rounded-xl font-semibold disabled:opacity-50">
+            {submitting ? "Submitting..." : "Propose Time Reschedule"}
           </Button>
           <Button variant="outline" className="w-full h-12 rounded-xl" onClick={() => router.push("/")}>
             Back to Proposals

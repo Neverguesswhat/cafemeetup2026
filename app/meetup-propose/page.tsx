@@ -7,7 +7,7 @@ import { TabBar } from "@/components/layout/TabBar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Timer, MapPin, Calendar, ArrowLeft } from "lucide-react";
+import { Timer, MapPin, Calendar, ArrowLeft, AlertCircle } from "lucide-react";
 
 const SUGGESTED_VENUES = [
   "Cuppa & Co (1.4mi)",
@@ -108,6 +108,8 @@ export default function MeetupProposePage() {
   const router = useRouter();
   const { state, submitProposals, startBrowsing } = useAppState();
   const [timeLeft, setTimeLeft] = useState("");
+  const [error, setError] = useState<string | null>(null);
+  const [submitting, setSubmitting] = useState(false);
 
   const [proposalLocations, setProposalLocations] = useState<string[]>(() => {
     if (state?.proposals && state.proposals.length === 3) {
@@ -177,15 +179,27 @@ export default function MeetupProposePage() {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const formattedOptions: MeetupOption[] = [
       { location: proposalLocations[0], time: formatDateTime(proposalTimes[0]) },
       { location: proposalLocations[1], time: formatDateTime(proposalTimes[1]) },
       { location: proposalLocations[2], time: formatDateTime(proposalTimes[2]) },
     ];
-    submitProposals(formattedOptions);
-    router.push("/");
+    
+    setError(null);
+    setSubmitting(true);
+    const success = await submitProposals(formattedOptions);
+    setSubmitting(false);
+
+    if (success) {
+      router.push("/");
+    } else {
+      setError(
+        "Violates Supabase Row Level Security (RLS) policies. Please ensure you have executed " +
+        "the required SQL INSERT policies for 'meetups' in your Supabase SQL Editor."
+      );
+    }
   };
 
   const handleBack = () => {
@@ -217,6 +231,16 @@ export default function MeetupProposePage() {
             </div>
           )}
         </div>
+
+        {error && (
+          <div className="p-4 mb-6 rounded-3xl bg-red-50 border border-red-200 text-red-800 flex items-start gap-3 text-sm leading-relaxed animate-fade-in">
+            <AlertCircle className="w-5 h-5 text-red-500 shrink-0 mt-0.5" />
+            <div className="flex-1">
+              <p className="font-bold mb-0.5">Database Sync Error</p>
+              <p>{error}</p>
+            </div>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-4">
           {[0, 1, 2].map((i) => {
@@ -307,9 +331,10 @@ export default function MeetupProposePage() {
 
           <Button
             type="submit"
-            className="w-full h-12 rounded-xl mt-4 font-bold text-base bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-none border-0 active:scale-[0.98]"
+            disabled={submitting}
+            className="w-full h-12 rounded-xl mt-4 font-bold text-base bg-blue-600 hover:bg-blue-700 text-white transition-all shadow-none border-0 active:scale-[0.98] disabled:opacity-50"
           >
-            Send Meetup Proposals
+            {submitting ? "Sending Proposals..." : "Send Meetup Proposals"}
           </Button>
         </form>
       </main>

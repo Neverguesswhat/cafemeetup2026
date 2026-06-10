@@ -135,32 +135,34 @@ export default function AccountPage() {
             </div>
 
             {/* Switch Persona Box */}
-            <div className="p-4 rounded-3xl border border-border bg-slate-50 flex flex-col gap-2 mb-6">
-              <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Quick Simulation Settings</span>
-              <p className="text-sm text-muted-foreground mb-2">
-                Toggle your active role persona to experience both sides of the commitment matching flow.
-              </p>
-              <div className="flex flex-col gap-2">
-                <div className="flex gap-2">
-                  <Button
-                    variant={state?.userPersona === "james" ? "default" : "outline"}
-                    type="button"
-                    className="flex-1 rounded-xl h-10 text-sm"
-                    onClick={() => setPersona("james")}
-                  >
-                    James (Chooser)
-                  </Button>
-                  <Button
-                    variant={state?.userPersona === "charlotte" ? "default" : "outline"}
-                    type="button"
-                    className="flex-1 rounded-xl h-10 text-sm"
-                    onClick={() => setPersona("charlotte")}
-                  >
-                    Charlotte (Chosen)
-                  </Button>
+            {state?.userPersona === "admin" && (
+              <div className="p-4 rounded-3xl border border-border bg-slate-50 flex flex-col gap-2 mb-6">
+                <span className="text-xs font-bold uppercase tracking-wider text-slate-500">Quick Simulation Settings</span>
+                <p className="text-sm text-muted-foreground mb-2">
+                  Toggle your active role persona to experience both sides of the commitment matching flow.
+                </p>
+                <div className="flex flex-col gap-2">
+                  <div className="flex gap-2">
+                    <Button
+                      variant={(state?.userPersona as string) === "james" ? "default" : "outline"}
+                      type="button"
+                      className="flex-1 rounded-xl h-10 text-sm"
+                      onClick={() => setPersona("james")}
+                    >
+                      James (Chooser)
+                    </Button>
+                    <Button
+                      variant={(state?.userPersona as string) === "charlotte" ? "default" : "outline"}
+                      type="button"
+                      className="flex-1 rounded-xl h-10 text-sm"
+                      onClick={() => setPersona("charlotte")}
+                    >
+                      Charlotte (Chosen)
+                    </Button>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             {/* Safety Form */}
             {state?.userPersona !== "admin" && (
@@ -219,7 +221,7 @@ export default function AccountPage() {
                 </div>
 
                 <Button type="submit" className="w-full h-12 rounded-xl mt-2 font-semibold">
-                  Save Safety Settings
+                  Save Settings
                 </Button>
               </form>
             )}

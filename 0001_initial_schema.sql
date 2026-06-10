@@ -18,7 +18,10 @@ CREATE TABLE IF NOT EXISTS public.profiles (
     flags_count INT DEFAULT 0,
     last_meetup_at TIMESTAMPTZ,
     last_reset_at TIMESTAMPTZ DEFAULT (CURRENT_DATE + TIME '09:00:00'),
+    banned_until TIMESTAMPTZ,
+    emergency_contact_name TEXT,
     emergency_contact_phone TEXT,
+    notify_pref TEXT CHECK (notify_pref IN ('push', 'sms', 'both')) DEFAULT 'both',
     
     updated_at TIMESTAMPTZ DEFAULT NOW()
 );
@@ -35,9 +38,15 @@ CREATE TABLE IF NOT EXISTS public.meetups (
     -- Proposer's 3 Options: {time: string, location: string, address: string}
     options JSONB NOT NULL, 
     selected_option_index INT CHECK (selected_option_index IN (0, 1, 2)),
+    edited_proposal JSONB,
     
-    -- The Verification Code (e.g., '0035' or '4357' for HELP)
+    -- Verification Code & Attempt Logic
     verification_code CHAR(4) NOT NULL,
+    code_attempts INT DEFAULT 0,
+    
+    -- Safety Panic Trigger
+    emergency_alert BOOLEAN DEFAULT FALSE,
+    emergency_alert_details JSONB,
     
     -- Timing: Each step has a 15-minute window
     expires_at TIMESTAMPTZ DEFAULT (NOW() + INTERVAL '15 minutes'),
@@ -45,15 +54,27 @@ CREATE TABLE IF NOT EXISTS public.meetups (
     confirmed_at TIMESTAMPTZ
 );
 
--- 3. Row Level Security (RLS)
+-- 3. Notifications Table: Store simulated push / SMS alerts
+CREATE TABLE IF NOT EXISTS public.notifications (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    profile_id UUID REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+    title TEXT NOT NULL,
+    body TEXT NOT NULL,
+    type TEXT CHECK (type IN ('sms', 'push', 'system')) DEFAULT 'system',
+    created_at TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- 4. Row Level Security (RLS)
 ALTER TABLE public.profiles ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.meetups ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.notifications ENABLE ROW LEVEL SECURITY;
 
--- Profiles: Users can read all (for matching) but only update their own
+-- Profiles: Users can read all (for matching) but only update/insert their own
 CREATE POLICY "Profiles are viewable by everyone." ON public.profiles FOR SELECT USING (true);
 CREATE POLICY "Users can update own profile." ON public.profiles FOR UPDATE USING (auth.uid() = id);
+CREATE POLICY "Users can insert own profile." ON public.profiles FOR INSERT WITH CHECK (auth.uid() = id);
 
--- Meetups: Only the chooser or chosen can see/edit the meetup
+-- Meetups: Only the chooser or chosen can see/edit/insert the meetup
 CREATE POLICY "Participants can view their own meetups." 
     ON public.meetups FOR SELECT 
     USING (auth.uid() = chooser_id OR auth.uid() = chosen_id);
@@ -61,3 +82,16 @@ CREATE POLICY "Participants can view their own meetups."
 CREATE POLICY "Participants can update their own meetups." 
     ON public.meetups FOR UPDATE 
     USING (auth.uid() = chooser_id OR auth.uid() = chosen_id);
+
+CREATE POLICY "Participants can insert their own meetups." 
+    ON public.meetups FOR INSERT 
+    WITH CHECK (auth.uid() = chooser_id OR auth.uid() = chosen_id);
+
+-- Notifications: Users can select/insert notifications
+CREATE POLICY "Users can view their own notifications."
+    ON public.notifications FOR SELECT
+    USING (auth.uid() = profile_id);
+
+CREATE POLICY "Users can insert notifications."
+    ON public.notifications FOR INSERT
+    WITH CHECK (true);
